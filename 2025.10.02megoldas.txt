@@ -1,0 +1,39 @@
+# Varga Dávid 13.C
+
+# 2. x
+SELECT * FROM diakok WHERE telepules='Barnamalom';
+
+# 3. x
+SELECT orak.datum, orak.terem, orak.orasorszam FROM orak WHERE orak.targy='angol' 
+ORDER BY orak.datum, orak.orasorszam;
+
+# 4. x
+SELECT DISTINCT orak.tanar FROM orak WHERE orak.targy='matematika' OR orak.targy='fizika' 
+ORDER BY orak.tanar;
+
+# 5. x
+SELECT telepules, COUNT(*) AS diakszam FROM diakok 
+GROUP BY telepules 
+ORDER BY diakszam DESC; 
+
+# 6. x
+SELECT DISTINCT targy FROM orak 
+ORDER BY targy;
+
+# 7. x
+SELECT diakok.nev, diakok.email, diakok.telefon FROM diakok
+JOIN kapcsolo ON diakok.id = kapcsolo.diakid
+JOIN orak ON orak.id = kapcsolo.oraid
+WHERE orak.tanar = 'Angol Anna' AND orak.datum = '2028-11-10';
+
+# 8. x
+SELECT diakok.nev FROM diakok WHERE diakok.telepules = 
+	(SELECT diakok.telepules FROM diakok WHERE diakok.nev = "Majer Melinda")
+	and diakok.nev != "Majer Melinda";
+
+# 9. xx
+SELECT orak.datum, orak.targy, orak.csoport, orak.terem, orak.tanar, orak.ferohely, orak.orasorszam,
+orak.ferohely - COUNT(kapcsolo.diakid) AS szabad FROM orak
+LEFT JOIN kapcsolo ON orak.id = kapcsolo.oraid
+GROUP BY orak.id
+ORDER BY szabad DESC;
